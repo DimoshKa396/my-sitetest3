@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестировщик Профи</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="start-screen">
+        <button class="start-button" onclick="startTesting()">Начать ручное тестирование</button>
+    </div>
+
+        <div class="header">
+            <div class="logo">
+                Тестировщик про макс
+            </div>
+            <div class="nav-menu">
+                <button class="nav-button active" onclick="switchPage(1)">Формы</button>
+                <button class="nav-button" onclick="switchPage(2)">Списки</button>
+                <button class="nav-button" onclick="switchPage(3)">Кнопки</button>
+                <button class="nav-button" onclick="switchPage(4)">Дополнительно</button>
+            </div>
+            <div class="progress-info">
+                <div class="progress-stats">
+                    Прогресс: <strong id="progress-percent">0%</strong> | 
+                    <span id="tested-count">0</span>/<span id="total-count">0</span>
+                </div>
+                <button class="finish-button" onclick="showFinishModal()">Завершить</button>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Формы ввода -->
+            <div id="page1" class="page active">
+                <h2 class="section-title">Формы ввода</h2>
+                <div class="test-grid">
+                    <div class="test-card" data-test-id="text-input">
+                        <h3>Текстовое поле</h3>
+                        <div class="form-group">
+                            <label>Введите любой текст</label>
+                            <input type="text" placeholder="Пример: тестовые данные" oninput="updateTestStatus(this)">
+                        </div>
+                        <div class="test-status">
+                            <input type="checkbox" class="status-checkbox" onchange="updateProgress()">
+                            <span class="status-label">Отметить как протестировано</span>
+                        </div>
+                    </div>
+
+                    <div class="test-card" data-test-id="email-input">
+                        <h3>Email поле</h3>
+                        <div class="form-group">
+                            <label>Введите email</label>
+                            <input type="email" placeholder="test@example.com" oninput="updateTestStatus(this)">
+                        </div>
+                        <div class="test-status">
+                            <input type="checkbox" class="status-checkbox" onchange="updateProgress()">
+                            <span class="status-label">Отметить как протестировано</span>
+                        </div>
+                    </div>
+
+                    <div class="test-card" data-test-id="password-input">
+                        <h3>Поле пароля</h3>
+                        <div class="form-group">
+                            <label>Введите пароль</label>
+                            <input type="password" placeholder="••••••••" oninput="updateTestStatus(this)">
+                        </div>
+                        <div class="test-status">
+                            <input type="checkbox" class="status-checkbox" onchange="updateProgress()">
+                            <span class="status-label">Отметить как протестировано</span>
+                        </div>
+                    </div>
+
+                    <div class="test-card" data-test-id="textarea">
+                        <h3>Текстовая область</h3>
+                        <div class="form-group">
+                            <label>Введите текст</label>
+                            <textarea rows="3" placeholder="Многострочный текст..." oninput="updateTestStatus(this)"></textarea>
+                        </div>
+                        <div class="test-status">
+                            <input type="checkbox" class="status-checkbox" onchange="updateProgress()">
+                            <span class="status-label">Отметить как протестировано</span>
+                        </div>
+                    </div>
+
+                    <div class="test-card" data-test-id="number-input">
+                        <h3>Числовое поле</h3>
+                        <div class="form-group">
+                            <label>Введите число</label>
+                            <input type="number" placeholder="0" oninput="updateTestStatus(this)">
+                        </div>
+                        <div class="test-status">
+                            <input type="checkbox" class="status-checkbox" onchange="updateProgress()">
+                            <span class="status-label">Отметить как протестировано</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Выпадающие списки -->
+            <div id="page2" class="page">
+                <h2 class="section-title">Выпадающие списки</h2>
+                <div class="test-grid">
+                    <div class="test-card" data-test-id="simple-select">
+                        <h3>Обычный список</h3>
+                        <div class="form-group">
+                            <label>Выберите опцию</label>
+                            <select onchange="updateTestStatus(this)">
+                                <option value="">-- Выберите --</option>
+                                <option value="1">Опция 1</option>
+                                <option value="2">Опция 2</option>
+                                <option value="3">Опция 3</option>
+                            </select>
+                        </div>
+                        <div class="test-status">
+                            <input type="checkbox" class="status-checkbox" onchange="updateProgress()">
+                            <span class="status-label">Отметить как протестировано</span>
+                        </div>
+                    </div>
+
+                    <div class="test-card" data-test-id="multi-select">
+                        <h3>Множественный выбор</h3>
+                        <div class="form-group">
+                            <label>Выберите несколько опций</label>
+                            <select multiple size="4" onchange="updateTestStatus(this)">
+                                <option value="1">Опция A</option>
+                                <option value="2">Опция B</option>
+                                <option value="3">Опция C</option>
+                                <option value="4">Опция D</option>
+                            </select>
+                        </div>
+                        <div class="test-status">
+                            <input type="checkbox" class="status-checkbox" onchange="updateProgress()">
+                            <span class="status-label">Отметить как протестировано</span>
+                        </div>
+                    </div>
+
+                    <div class="test-card" data-test-id="radio-buttons">
+                        <h3>Radio кнопки</h3>
+                        <div class="form-group">
+                            <label>Выберите вариант</label>
+                            <div style="margin: 15px 0;">
+                                <label style="display: flex; align-items: center; margin-bottom: 10px;">
+                                    <input type="radio" name="radio-group" value="1" onchange="updateTestStatus(this)"> Вариант 1
+                                </label>
+                                <label style="display: flex; align-items: center; margin-bottom: 10px;">
+                                    <input type="radio" name="radio-group" value="2" onchange="updateTestStatus(this)"> Вариант 2
+                                </label>
+                                <label style="display: flex; align-items: center;">
+                                    <input type="radio" name="radio-group" value="3" onchange="updateTestStatus(this)"> Вариант 3
+                                </label>
+                            </div>
+                        </div>
+                        <div class="test-status">
+                            <input type="checkbox" class="status-checkbox" onchange="updateProgress()">
+                            <span class="status-label">Отметить как протестировано</span>
+                        </div>
+                    </div>
+
+                    <div class="test-card" data-test-id="checkboxes">
+                        <h3>Чекбоксы</h3>
+                        <div class="form-group">
+                            <label>Выберите опции</label>
+                            <div style="margin: 15px 0;">
+                                <label style="display: flex; align-items: center; margin-bottom: 10px;">
+                                    <input type="checkbox" value="1" onchange="updateTestStatus(this)"> Опция 1
+                                </label>
+                                <label style="display: flex; align-items: center; margin-bottom: 10px;">
+                                    <input type="checkbox" value="2" onchange="updateTestStatus(this)"> Опция 2
+                                </label>
+                                <label style="display: flex; align-items: center;">
+                                    <input type="checkbox" value="3" onchange="updateTestStatus(this)"> Опция 3
+                                </label>
+                            </div>
+                        </div>
+                        <div class="test-status">
+                            <input type="checkbox" class="status-checkbox" onchange="updateProgress()">
+                            <span class="status-label">Отметить как протестировано</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Кнопки и ссылки -->
+            <div id="page3" class="page">
+                <h2 class="section-title">Кнопки и ссылки</h2>
+                <div class="test-grid">
+                    <div class="test-card" data-test-id="simple-button">
+                        <h3>Обычные кнопки</h3>
+                        <div style="margin: 20px 0;">
+                            <button class="action-button" onclick="updateTestStatus(this)">Кнопка 1</button>
+                            <button class="action-button" onclick="updateTestStatus(this)">Кнопка 2</button>
+                            <button class="action-button primary" onclick="updateTestStatus(this)">Главная</button>
+                        </div>
+                        <div class="test-status">
+                            <input type="checkbox" class="status-checkbox" onchange="updateProgress()">
+                            <span class="status-label">Отметить как протестировано</span>
+                        </div>
+                    </div>
+
+                    <div class="test-card" data-test-id="link-button">
+                        <h3>Ссылки</h3>
+                        <div style="margin: 20px 0;">
+                            <a href="#" onclick="event.preventDefault(); updateTestStatus(this); return false;" style="color: #10b981; text-decoration: none; font-weight: 500;">Обычная ссылка</a><br><br>
+                            <a href="#" onclick="event.preventDefault(); updateTestStatus(this); return false;" style="color: #333; text-decoration: underline; font-weight: 500;">Подчеркнутая ссылка</a>
+                        </div>
+                        <div class="test-status">
+                            <input type="checkbox" class="status-checkbox" onchange="updateProgress()">
+                            <span class="status-label">Отметить как протестировано</span>
+                        </div>
+                    </div>
+
+                    <div class="test-card" data-test-id="file-input">
+                        <h3>Загрузка файла</h3>
+                        <div class="form-group">
+                            <label>Выберите файл</label>
+                            <input type="file" onchange="updateTestStatus(this)">
+                        </div>
+                        <div class="test-status">
+                            <input type="checkbox" class="status-checkbox" onchange="updateProgress()">
+                            <span class="status-label">Отметить как протестировано</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Дополнительные элементы -->
+            <div id="page4" class="page">
+                <h2 class="section-title">Дополнительные элементы</h2>
+                <div class="test-grid">
+                    <div class="test-card" data-test-id="date-input">
+                        <h3>Выбор даты</h3>
+                        <div class="form-group">
+                            <label>Выберите дату</label>
+                            <input type="date" onchange="updateTestStatus(this)">
+                        </div>
+                        <div class="test-status">
+                            <input type="checkbox" class="status-checkbox" onchange="updateProgress()">
+                            <span class="status-label">Отметить как протестировано</span>
+                        </div>
+                    </div>
+
+                    <div class="test-card" data-test-id="time-input">
+                        <h3>Выбор времени</h3>
+                        <div class="form-group">
+                            <label>Выберите время</label>
+                            <input type="time" onchange="updateTestStatus(this)">
+                        </div>
+                        <div class="test-status">
+                            <input type="checkbox" class="status-checkbox" onchange="updateProgress()">
+                            <span class="status-label">Отметить как протестировано</span>
+                        </div>
+                    </div>
+
+                    <div class="test-card" data-test-id="range-input">
+                        <h3>Ползунок</h3>
+                        <div class="form-group">
+                            <label>Выберите значение</label>
+                            <input type="range" min="0" max="100" oninput="updateTestStatus(this)">
+                        </div>
+                        <div class="test-status">
+                            <input type="checkbox" class="status-checkbox" onchange="updateProgress()">
+                            <span class="status-label">Отметить как протестировано</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Тестировщик про макс 2026</p>
+        </div>
+
+    <!-- окно завершения -->
+    <div class="modal" id="finish-modal">
+        <div class="modal-content">
+            <h3>Завершение тестирования</h3>
+            <p>Вы уверены, что хотите завершить?</p>
+            
+            <div class="result-details">
+                <div class="result-percent" id="final-percent">0%</div>
+                <div class="result-stats">
+                    Протестировано: <span id="final-tested">0</span> из <span id="final-total">0</span>
+                </div>
+                <div style="margin-top: 15px; color: #666;" id="completion-message"></div>
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="modal-button cancel" onclick="closeModal()">Продолжить</button>
+                <button class="modal-button confirm" onclick="completeTesting()">Завершить</button>
+            </div>
+        </div>
+    </div>
+<script src="script.js"></script>
+</body>
+</html>
